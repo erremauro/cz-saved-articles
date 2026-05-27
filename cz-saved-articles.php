@@ -183,6 +183,27 @@ final class CZ_Saved_Articles {
 
 	/** ---- Shortcode ---- */
 
+	private function render_empty_state(): string {
+		ob_start();
+		?>
+		<div id="czsa-saved-app" class="czsa-saved-app">
+			<h1 class="czsa-page-title"><?php esc_html_e( 'Articoli Salvati', 'cz-saved-articles' ); ?></h1>
+			<div class="czsa-toolbar">
+				<input type="search" class="czsa-toolbar__search"
+					placeholder="<?php esc_attr_e( 'Cerca per titolo, autore, volume…', 'cz-saved-articles' ); ?>"
+					aria-label="<?php esc_attr_e( 'Cerca articoli salvati', 'cz-saved-articles' ); ?>">
+				<select class="czsa-toolbar__order" aria-label="<?php esc_attr_e( 'Ordina per', 'cz-saved-articles' ); ?>">
+					<option value="date"><?php esc_html_e( 'Data di aggiunta', 'cz-saved-articles' ); ?></option>
+					<option value="asc"><?php esc_html_e( 'A → Z', 'cz-saved-articles' ); ?></option>
+					<option value="desc"><?php esc_html_e( 'Z → A', 'cz-saved-articles' ); ?></option>
+				</select>
+			</div>
+			<p class="czsa-empty"><?php esc_html_e( 'Nessun articolo salvato ancora.', 'cz-saved-articles' ); ?></p>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
 	public function render_shortcode() {
 		if ( ! is_user_logged_in() ) {
 			return '<p>' . esc_html__( 'Accedi per vedere i tuoi articoli salvati.', 'cz-saved-articles' ) . '</p>';
@@ -192,7 +213,7 @@ final class CZ_Saved_Articles {
 		$records = $this->get_saved_records( $user_id );
 
 		if ( empty( $records ) ) {
-			return '<div id="czsa-saved-app" class="czsa-saved-app"><p class="czsa-empty">' . esc_html__( 'Nessun articolo salvato ancora.', 'cz-saved-articles' ) . '</p></div>';
+			return $this->render_empty_state();
 		}
 
 		// Most recently saved first
@@ -217,7 +238,7 @@ final class CZ_Saved_Articles {
 		}
 
 		if ( empty( $items ) ) {
-			return '<div id="czsa-saved-app" class="czsa-saved-app"><p class="czsa-empty">' . esc_html__( 'Nessun articolo salvato ancora.', 'cz-saved-articles' ) . '</p></div>';
+			return $this->render_empty_state();
 		}
 
 		ob_start();
