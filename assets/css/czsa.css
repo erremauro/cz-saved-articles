@@ -1,0 +1,211 @@
+/* CZ Saved Articles */  
+
+/* ── Bookmark button ──────────────────────────────────────────────────────── */
+
+.czsa-bookmark-btn {
+  /* inherits .czcr-toolbar__btn */
+}
+
+.czsa-bookmark-btn.is-saved {
+  color: var(--color-accent, currentColor);
+}
+
+/* ── Saved articles page ──────────────────────────────────────────────────── */
+
+.czsa-saved-app {
+  margin-top: 1rem;
+}
+
+.czsa-page-title {
+  margin: 0 0 1.5rem;
+}
+
+/* ── Toolbar ──────────────────────────────────────────────────────────────── */
+
+.czsa-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.czsa-toolbar__search,
+.czsa-toolbar__order {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--tt-btn-bc, #ccc);
+  border-radius: 0;
+  font-size: 0.9em;
+  background-color: var(--tt-btn-bg, #fff);
+  color: var(--text, #333);
+  outline: none;
+}
+
+.czsa-toolbar__search {
+  flex: 1;
+}
+
+.czsa-toolbar__search::placeholder {
+  color: var(--text, #aaa);
+  opacity: 0.45;
+}
+
+.czsa-toolbar__search:focus,
+.czsa-toolbar__order:focus {
+  border-color: var(--link, #888);
+}
+
+.czsa-toolbar__order {
+  cursor: pointer;
+}
+
+/* ── List ─────────────────────────────────────────────────────────────────── */
+
+.czsa-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.czsa-item {
+  padding: 1.5em 1em;
+  border: var(--card-border);
+  border-radius: 0.5em;
+  margin-bottom: 1rem;
+}
+
+/* ── Read state ── */
+
+.czsa-item__read {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.czsa-item__link {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+}
+
+.czsa-item__link:hover .czsa-item__title {
+  text-decoration: underline;
+}
+
+.czsa-item__author {
+  font-size: 0.8em;
+  color: var(--color-text-muted, #888);
+}
+
+.czsa-item__title {
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.czsa-item__volume {
+  font-size: 0.8em;
+  color: var(--color-text-muted, #888);
+  font-style: italic;
+}
+
+.czsa-item__date {
+  font-size: 0.72em;
+  color: var(--color-text-muted, #aaa);
+  margin-top: .5rem;
+}
+
+.czsa-item__date-label {
+  font-weight: 600;
+}
+
+.czsa-item__remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem;
+  color: var(--color-text-muted, #bbb);
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, background-color 0.15s;
+  line-height: 1;
+}
+
+.czsa-item__remove:hover {
+  color: var(--color-text, #333);
+  background-color: var(--color-bg-hover, rgba(0, 0, 0, 0.06));
+}
+
+.czsa-item__remove.is-hidden {
+  display: none !important;
+}
+
+/* ── Confirm state ── */
+
+.czsa-item__confirm {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: var(--card-border, 1px solid #e5e5e5);
+}
+
+.czsa-item__confirm-msg {
+  margin: 0;
+  font-size: 0.9em;
+  color: var(--color-text-muted, #666);
+}
+
+.czsa-item__confirm-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.czsa-item__confirm-yes,
+.czsa-item__cancel {
+  background: none;
+  border: 1px solid currentColor;
+  border-radius: 99px;
+  cursor: pointer;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85em;
+  font-family: inherit;
+  line-height: 1.4;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.czsa-item__confirm-yes {
+  color: var(--color-danger, #bc0117);
+}
+
+.czsa-item__confirm-yes:hover {
+  background-color: var(--color-danger, #bc0117);
+  color: #fff;
+  border-color: var(--color-danger, #bc0117);
+}
+
+.czsa-item__cancel {
+  color: var(--text, #888);
+}
+
+.czsa-item__cancel:hover {
+  background-color: rgba(128, 128, 128, .08);
+}
+
+.czsa-empty {
+  padding: 2rem 0;
+  color: var(--color-text-muted, #888);
+  text-align: center;
+}
