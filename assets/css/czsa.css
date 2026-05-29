@@ -67,10 +67,12 @@
 }
 
 .czsa-item {
-  padding: 1.5em 1em;
-  border: var(--card-border);
-  border-radius: 0.5em;
+  padding: 1em;
+  background: var(--czcr-bg);
+  border: 1px solid var(--czcr-border);
+  border-radius: .5em;
   margin-bottom: 1rem;
+  transition: border .3s ease;
 }
 
 /* ── Read state ── */
@@ -92,7 +94,7 @@
 }
 
 .czsa-item__link:hover .czsa-item__title {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .czsa-item__author {
@@ -102,7 +104,7 @@
 
 .czsa-item__title {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.2rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -125,23 +127,22 @@
 }
 
 .czsa-item__remove {
-  background: none;
+  background: transparent;
   border: none;
   cursor: pointer;
   padding: 0.4rem;
-  color: var(--color-text-muted, #bbb);
+  color: var(--text);
   flex-shrink: 0;
-  border-radius: 50%;
+  border-radius: 999px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.15s, background-color 0.15s;
+  transition: background-color 0.2s ease;
   line-height: 1;
 }
 
 .czsa-item__remove:hover {
-  color: var(--color-text, #333);
-  background-color: var(--color-bg-hover, rgba(0, 0, 0, 0.06));
+  background-color: var(--top-nav-hover);
 }
 
 .czsa-item__remove.is-hidden {
@@ -158,7 +159,7 @@
   flex-wrap: wrap;
   margin-top: 0.6rem;
   padding-top: 0.6rem;
-  border-top: var(--card-border, 1px solid #e5e5e5);
+  border-top: 1px solid var(--czcr-border, #e5e5e5);
 }
 
 .czsa-item__confirm-msg {
@@ -180,7 +181,7 @@
   border-radius: 99px;
   cursor: pointer;
   padding: 0.3rem 0.75rem;
-  font-size: 0.85em;
+  font-size: 0.8rem;
   font-family: inherit;
   line-height: 1.4;
   transition: background-color 0.15s, color 0.15s;
