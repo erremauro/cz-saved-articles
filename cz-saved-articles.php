@@ -2,8 +2,8 @@
 /**
  * Plugin Name: CZ Saved Articles
  * Description: Salva articoli preferiti con un segnalibro. Solo per utenti registrati.
- * Version:     1.0.0
- * Author:      CZ
+ * Version:     1.1.0
+ * Author:      Roberto Mauro
  * Text Domain: cz-saved-articles
  */
 
@@ -11,10 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CZSA_VERSION', '1.0.0' );
-define( 'CZSA_PATH',    plugin_dir_path( __FILE__ ) );
-define( 'CZSA_URL',     plugins_url( '', __FILE__ ) . '/' );
+define( 'CZSA_VERSION',    '1.1.0' );
+define( 'CZSA_DB_VERSION', '1.1.0' );
+define( 'CZSA_PATH',       plugin_dir_path( __FILE__ ) );
+define( 'CZSA_URL',        plugins_url( '', __FILE__ ) . '/' );
 
+require_once CZSA_PATH . 'inc/db.php';
 require_once CZSA_PATH . 'inc/rest-api.php';
 
 register_activation_hook( __FILE__, [ 'CZ_Saved_Articles', 'activate' ] );
@@ -31,6 +33,9 @@ final class CZ_Saved_Articles {
 	}
 
 	public static function activate() {
+		CZSA_DB::create_table();
+		CZSA_DB::migrate_all_from_usermeta();
+		update_option( 'czsa_db_version', CZSA_DB_VERSION );
 		self::ensure_saved_page();
 	}
 
@@ -57,10 +62,20 @@ final class CZ_Saved_Articles {
 	}
 
 	private function __construct() {
+		add_action( 'init',                    [ $this, 'maybe_upgrade' ] );
 		add_action( 'rest_api_init',           [ 'CZSA_REST', 'register_routes' ] );
 		add_action( 'wp_enqueue_scripts',      [ $this, 'enqueue_assets' ] );
 		add_action( 'czh_nav_user_menu_items', [ $this, 'render_nav_menu_item' ], 9 );
 		add_shortcode( 'czsa_saved_articles',  [ $this, 'render_shortcode' ] );
+	}
+
+	public function maybe_upgrade(): void {
+		if ( get_option( 'czsa_db_version' ) === CZSA_DB_VERSION ) {
+			return;
+		}
+		CZSA_DB::create_table();
+		CZSA_DB::migrate_all_from_usermeta();
+		update_option( 'czsa_db_version', CZSA_DB_VERSION );
 	}
 
 	private function get_saved_page_url() {
@@ -288,17 +303,11 @@ final class CZ_Saved_Articles {
 	}
 
 	private function get_saved_records( int $user_id ): array {
-		$records = get_user_meta( $user_id, 'czsa_saved_articles', true );
-		return is_array( $records ) ? $records : [];
+		return CZSA_DB::get_all( $user_id );
 	}
 
 	private function is_post_saved( int $user_id, int $post_id ): bool {
-		foreach ( $this->get_saved_records( $user_id ) as $r ) {
-			if ( (int) ( $r['post_id'] ?? 0 ) === $post_id ) {
-				return true;
-			}
-		}
-		return false;
+		return CZSA_DB::is_saved( $user_id, $post_id );
 	}
 
 	private function get_volume_name_for_post( $post_id ) {

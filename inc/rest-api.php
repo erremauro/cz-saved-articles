@@ -35,26 +35,13 @@ class CZSA_REST {
 			return new WP_Error( 'invalid_post', 'Post not found', [ 'status' => 404 ] );
 		}
 
-		$records = get_user_meta( $user_id, 'czsa_saved_articles', true );
-		$records = is_array( $records ) ? $records : [];
-
-		$idx = null;
-		foreach ( $records as $i => $r ) {
-			if ( (int) ( $r['post_id'] ?? 0 ) === $post_id ) {
-				$idx = $i;
-				break;
-			}
-		}
-
-		if ( null !== $idx ) {
-			array_splice( $records, $idx, 1 );
+		if ( CZSA_DB::is_saved( $user_id, $post_id ) ) {
+			CZSA_DB::remove( $user_id, $post_id );
 			$is_saved = false;
 		} else {
-			$records[] = [ 'post_id' => $post_id, 'saved_at' => time() ];
-			$is_saved  = true;
+			CZSA_DB::save( $user_id, $post_id );
+			$is_saved = true;
 		}
-
-		update_user_meta( $user_id, 'czsa_saved_articles', array_values( $records ) );
 
 		return rest_ensure_response( [ 'saved' => $is_saved, 'post_id' => $post_id ] );
 	}
