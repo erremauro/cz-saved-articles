@@ -68,6 +68,11 @@
       const result = await apiFetch('toggle', { method: 'POST', body: { post_id: ctx.postId } });
       isSaved = result.saved;
 
+      // Notifies the theme (header icons) of the new saved state.
+      document.dispatchEvent(new CustomEvent('czsa:saved-change', {
+        detail: { postId: ctx.postId, saved: !!isSaved },
+      }));
+
       if (btn) {
         btn.innerHTML = getBookmarkSvg(isSaved);
         btn.setAttribute('aria-label', isSaved ? i18n.saved : i18n.save);

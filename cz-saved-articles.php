@@ -2,7 +2,7 @@
 /**
  * Plugin Name: CZ Saved Articles
  * Description: Salva articoli preferiti con un segnalibro. Solo per utenti registrati.
- * Version:     1.1.0
+ * Version:     1.2.0
  * Author:      Roberto Mauro
  * Text Domain: cz-saved-articles
  */
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CZSA_VERSION',    '1.1.0' );
+define( 'CZSA_VERSION',    '1.2.0' );
 define( 'CZSA_DB_VERSION', '1.1.0' );
 define( 'CZSA_PATH',       plugin_dir_path( __FILE__ ) );
 define( 'CZSA_URL',        plugins_url( '', __FILE__ ) . '/' );
